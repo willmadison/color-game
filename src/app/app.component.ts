@@ -1,27 +1,38 @@
 import {Component} from '@angular/core';
+import {ColorService} from "./color.service";
+
+export enum GameState {
+  NewGame = 0,
+  Incorrect,
+  Correct
+}
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  providers: [ColorService]
 })
 export class AppComponent {
+  private gameStateEnum = GameState;
+  private currentState = GameState.NewGame;
+
   private colors: any;
   private goalColor: string;
 
   private message: string;
 
-  constructor() {
-    this.colors = [
-      'rgb(255, 0, 0)',
-      'rgb(255, 255, 0)',
-      'rgb(0, 255, 0)',
-      'rgb(0, 255, 255)',
-      'rgb(0, 0, 255)',
-      'rgb(255, 0, 255)'
-    ];
-
+  constructor(private colorService: ColorService) {
+    this.generateColors();
     this.pickGoalColor();
+  }
+
+  private generateColors() {
+    this.colors = [];
+
+    for (let i = 0; i < 6; i++) {
+      this.colors[i] = this.colorService.randomColor();
+    }
   }
 
   private pickGoalColor(): void {
@@ -31,17 +42,27 @@ export class AppComponent {
 
   private clickColor(color: string, index: number): void {
     if (color == this.goalColor) {
-      this.message = 'Correct!';
-      this.changeAllColors(color);
+      this.handleSuccess(color);
     } else {
-      this.colors[index] = 'transparent';
-      this.message = 'Try Again';
+      this.handleFailure(index);
     }
+  }
+
+  private handleSuccess(color: string) {
+    this.currentState = GameState.Correct;
+    this.message = 'Correct!';
+
+    this.changeAllColors(color);
   }
 
   private changeAllColors(color: string): void {
     for (let i: number = 0; i < this.colors.length; i++) {
       this.colors[i] = color;
     }
+  }
+
+  private handleFailure(index: number) {
+    this.colors[index] = 'transparent';
+    this.message = 'Try Again';
   }
 }

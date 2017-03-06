@@ -1,59 +1,92 @@
-import { TestBed, async } from '@angular/core/testing';
+import {TestBed, async} from '@angular/core/testing';
 
-import { AppComponent } from './app.component';
+import {AppComponent} from './app.component';
+import {ColorService} from "./color.service";
+import {Router} from "@angular/router";
+
+export class FakeColorService {
+  private callCount = 0;
+
+  randomColor(): string {
+    switch (this.callCount++) {
+      case 0:
+        return 'rgb(165, 178, 138)';
+      case 1:
+        return 'rgb(189, 93, 51)';
+      case 2:
+        return 'rgb(22, 132, 141)';
+      case 3:
+        return 'rgb(187, 75, 124)';
+      case 4:
+        return 'rgb(17, 77, 80)';
+      case 5:
+        return 'rgb(239, 200, 98)';
+    }
+  }
+}
 
 describe('AppComponent', () => {
   let fixture;
   let app;
   let compiled;
 
-  beforeEach(async(() => {
+  const goalBackground = 'background: rgb(239, 200, 98)';
+
+  beforeEach(() => {
     spyOn(Math, 'random').and.returnValue(0.9441226570562253);
 
     TestBed.configureTestingModule({
       declarations: [
         AppComponent
-      ],
+      ]
     }).compileComponents();
-  }));
 
-  beforeEach(async(() => {
+    TestBed.overrideComponent(AppComponent, {
+      set: {
+        providers: [{ provide: ColorService, useClass: FakeColorService }]
+      }
+    });
+  });
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
 
     app = fixture.debugElement.componentInstance;
     compiled = fixture.debugElement.nativeElement;
-  }));
+  });
 
-  it('should create the app', async(() => {
+  it('should create the app', () => {
     expect(app).toBeTruthy();
     expect(compiled).toBeTruthy();
-  }));
+  });
 
-  it('should display the title', async(() => {
-    expect(compiled.querySelector('h1').textContent).toContain('The Great rgb(255, 0, 255) Color Game');
-  }));
+  it('should display the title', () => {
+    expect(compiled.querySelector('h1').textContent).toContain('The Great rgb(239, 200, 98) Color Game');
+  });
 
-  it('should display different colors for each of the squares', async(() => {
-    expect(compiled.querySelectorAll('.square')[5].style.cssText).toContain('background: rgb(255, 0, 255)');
-  }));
+  it('should display different colors for each of the squares', () => {
+    expect(compiled.querySelectorAll('.square')[5].style.cssText).toContain(goalBackground);
+  });
 
-  it('should display correct message when user clicks on correct square', async(() => {
+  it('should display correct message when user clicks on correct square', () => {
     compiled.querySelectorAll('.square')[5].click();
     fixture.detectChanges();
 
     expect(compiled.querySelector('#message').textContent).toContain('Correct!');
 
     for (let square of compiled.querySelectorAll('.square')) {
-      expect(square.style.cssText).toContain('background: rgb(255, 0, 255)');
+      expect(square.style.cssText).toContain(goalBackground);
     }
-  }));
 
-  it('should hide incorrect choices', async(() => {
+    expect(compiled.querySelector('h1').style.cssText).toContain(goalBackground)
+  });
+
+  it('should hide incorrect choices', () => {
     compiled.querySelectorAll('.square')[3].click();
     fixture.detectChanges();
 
     expect(compiled.querySelectorAll('.square')[3].style.cssText).toContain('background: transparent');
     expect(compiled.querySelector('#message').textContent).toContain('Try Again');
-  }));
+  });
 });
