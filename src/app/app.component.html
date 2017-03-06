@@ -1,5 +1,12 @@
 <h1>The Great <span>{{ goalColor }}</span> Color Game</h1>
 
+<div>
+  <span id="message">{{ message }}</span>
+</div>
+
 <div id="container">
-  <div *ngFor="let color of colors" class="square" [style.background]="color"></div>
+  <div *ngFor="let color of colors; let i = index"
+       class="square"
+       [style.background]="color"
+       (click)="clickColor(color, i)"></div>
 </div>

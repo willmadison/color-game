@@ -5,6 +5,10 @@
   margin: 1.66%;
 }
 
+.square:hover {
+  cursor: pointer;
+}
+
 #container {
   margin: 20px auto;
   max-width: 600px;

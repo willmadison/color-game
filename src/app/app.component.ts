@@ -6,8 +6,10 @@ import {Component} from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  private colors : any;
-  private goalColor : string;
+  private colors: any;
+  private goalColor: string;
+
+  private message: string;
 
   constructor() {
     this.colors = [
@@ -19,6 +21,27 @@ export class AppComponent {
       'rgb(255, 0, 255)'
     ];
 
-    this.goalColor = this.colors[3];
+    this.pickGoalColor();
+  }
+
+  private pickGoalColor(): void {
+    let index = Math.floor(Math.random() * this.colors.length);
+    this.goalColor = this.colors[index];
+  }
+
+  private clickColor(color: string, index: number): void {
+    if (color == this.goalColor) {
+      this.message = 'Correct!';
+      this.changeAllColors(color);
+    } else {
+      this.colors[index] = 'transparent';
+      this.message = 'Try Again';
+    }
+  }
+
+  private changeAllColors(color: string): void {
+    for (let i: number = 0; i < this.colors.length; i++) {
+      this.colors[i] = color;
+    }
   }
 }
