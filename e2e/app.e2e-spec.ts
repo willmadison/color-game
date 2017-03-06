@@ -6,9 +6,4 @@ describe('color-game App', () => {
   beforeEach(() => {
     page = new ColorGamePage();
   });
-
-  it('should display message saying app works', () => {
-    page.navigateTo();
-    expect(page.getParagraphText()).toEqual('app works!');
-  });
 });

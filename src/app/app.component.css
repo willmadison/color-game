@@ -1,0 +1,19 @@
+.square {
+  width: 30%;
+  padding-bottom: 30%;
+  float: left;
+  margin: 1.66%;
+}
+
+#container {
+  margin: 20px auto;
+  max-width: 600px;
+}
+
+h1 {
+  line-height: 1.1;
+  font-weight: normal;
+  color: white;
+  margin: 0;
+  padding: 20px 0;
+}

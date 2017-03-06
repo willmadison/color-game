@@ -1,3 +1,5 @@
-<h1>
-  {{title}}
-</h1>
+<h1>The Great <span>{{ goalColor }}</span> Color Game</h1>
+
+<div id="container">
+  <div *ngFor="let color of colors" class="square" [style.background]="color"></div>
+</div>
