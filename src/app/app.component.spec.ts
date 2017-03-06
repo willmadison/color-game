@@ -21,6 +21,8 @@ export class FakeColorService {
         return 'rgb(17, 77, 80)';
       case 5:
         return 'rgb(239, 200, 98)';
+      default:
+        return 'rgb(199, 119, 9)';
     }
   }
 }
@@ -88,5 +90,20 @@ describe('AppComponent', () => {
 
     expect(compiled.querySelectorAll('.square')[3].style.cssText).toContain('background: transparent');
     expect(compiled.querySelector('#message').textContent).toContain('Try Again');
+  });
+
+  it('should have a button to reset the game', () => {
+    compiled.querySelectorAll('.square')[5].click();
+    fixture.detectChanges();
+
+    expect(compiled.querySelector('#message').textContent).toContain('Correct!');
+
+    compiled.querySelector('#reset').click();
+    fixture.detectChanges();
+
+    expect(compiled.querySelectorAll('.square')[0].style.cssText).toContain('rgb(199, 119, 9)');
+    expect(compiled.querySelector('#message').textContent).toBe('');
+    expect(compiled.querySelector('h1').textContent).toContain('The Great rgb(199, 119, 9) Color Game');
+    expect(compiled.querySelector('h1').style.cssText).not.toContain(goalBackground);
   });
 });

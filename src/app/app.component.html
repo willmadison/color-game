@@ -1,8 +1,9 @@
-<h1 [style.background]="currentState === gameStateEnum.Correct ? goalColor: 'default'">
-  The Great <span>{{ goalColor }}</span> Color Game
+<h1 [style.background]="currentState === gameStateEnum.Correct ? goalColor: ''">
+  The Great <br /><span id="colorDisplay">{{ goalColor }}</span><br /> Color Game
 </h1>
 
-<div>
+<div id="stripe">
+  <button id="reset" (click)="reset()">New Colors</button>
   <span id="message">{{ message }}</span>
 </div>
 

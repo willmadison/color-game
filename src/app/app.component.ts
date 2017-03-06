@@ -23,6 +23,13 @@ export class AppComponent {
   private message: string;
 
   constructor(private colorService: ColorService) {
+    this.reset();
+  }
+
+  private reset() {
+    this.currentState = GameState.NewGame;
+    this.message = '';
+
     this.generateColors();
     this.pickGoalColor();
   }
@@ -62,6 +69,7 @@ export class AppComponent {
   }
 
   private handleFailure(index: number) {
+    this.currentState = GameState.Incorrect;
     this.colors[index] = 'transparent';
     this.message = 'Try Again';
   }
