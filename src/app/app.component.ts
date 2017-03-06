@@ -14,19 +14,22 @@ export enum GameState {
   providers: [ColorService]
 })
 export class AppComponent {
+  private readonly hardNumSquares = 6;
+  private readonly easyNumSquares = 3;
+  private numSquares: number = this.hardNumSquares;
+
   private gameStateEnum = GameState;
   private currentState = GameState.NewGame;
+  private message: string;
 
   private colors: any;
   private goalColor: string;
-
-  private message: string;
 
   constructor(private colorService: ColorService) {
     this.reset();
   }
 
-  private reset() {
+  private reset(): void {
     this.currentState = GameState.NewGame;
     this.message = '';
 
@@ -37,7 +40,7 @@ export class AppComponent {
   private generateColors() {
     this.colors = [];
 
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < this.numSquares; i++) {
       this.colors[i] = this.colorService.randomColor();
     }
   }
@@ -45,6 +48,11 @@ export class AppComponent {
   private pickGoalColor(): void {
     let index = Math.floor(Math.random() * this.colors.length);
     this.goalColor = this.colors[index];
+  }
+
+  private changeMode(numSquares: number): void {
+    this.numSquares = numSquares;
+    this.reset();
   }
 
   private clickColor(color: string, index: number): void {
@@ -55,7 +63,7 @@ export class AppComponent {
     }
   }
 
-  private handleSuccess(color: string) {
+  private handleSuccess(color: string): void {
     this.currentState = GameState.Correct;
     this.message = 'Correct!';
 
@@ -68,7 +76,7 @@ export class AppComponent {
     }
   }
 
-  private handleFailure(index: number) {
+  private handleFailure(index: number): void {
     this.currentState = GameState.Incorrect;
     this.colors[index] = 'transparent';
     this.message = 'Try Again';

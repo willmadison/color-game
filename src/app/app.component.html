@@ -5,6 +5,12 @@
 <div id="stripe">
   <button id="reset" (click)="reset()">New Colors</button>
   <span id="message">{{ message }}</span>
+  <button class="mode"
+          [class.selected]="numSquares === easyNumSquares"
+          (click)="changeMode(easyNumSquares)">Easy</button>
+  <button class="mode selected"
+          [class.selected]="numSquares === hardNumSquares"
+          (click)="changeMode(hardNumSquares)">Hard</button>
 </div>
 
 <div id="container">

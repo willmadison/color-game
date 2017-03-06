@@ -2,7 +2,6 @@ import {TestBed, async} from '@angular/core/testing';
 
 import {AppComponent} from './app.component';
 import {ColorService} from "./color.service";
-import {Router} from "@angular/router";
 
 export class FakeColorService {
   private callCount = 0;
@@ -105,5 +104,17 @@ describe('AppComponent', () => {
     expect(compiled.querySelector('#message').textContent).toBe('');
     expect(compiled.querySelector('h1').textContent).toContain('The Great rgb(199, 119, 9) Color Game');
     expect(compiled.querySelector('h1').style.cssText).not.toContain(goalBackground);
+  });
+
+  it('should have an easy/hard toggle', () => {
+    expect(compiled.querySelector('.mode.selected').textContent).toContain('Hard');
+    expect(compiled.querySelector('.mode').textContent).toContain('Easy');
+
+    compiled.querySelector('.mode').click();
+    fixture.detectChanges();
+
+    expect(compiled.querySelectorAll('.square').length).toBe(3);
+    expect(compiled.querySelector('h1').textContent).toContain('The Great rgb(199, 119, 9) Color Game');
+    expect(compiled.querySelector('.mode.selected').textContent).toContain('Easy');
   });
 });
