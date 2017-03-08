@@ -80,7 +80,7 @@ describe('AppComponent', () => {
       expect(square.style.cssText).toContain(goalBackground);
     }
 
-    expect(compiled.querySelector('h1').style.cssText).toContain(goalBackground)
+    expect(compiled.querySelector('h1').style.cssText).toContain(goalBackground);
   });
 
   it('should hide incorrect choices', () => {
@@ -92,10 +92,13 @@ describe('AppComponent', () => {
   });
 
   it('should have a button to reset the game', () => {
+    expect(compiled.querySelector('#reset').textContent).toContain('New Colors');
+
     compiled.querySelectorAll('.square')[5].click();
     fixture.detectChanges();
 
     expect(compiled.querySelector('#message').textContent).toContain('Correct!');
+    expect(compiled.querySelector('#reset').textContent).toContain('Play Again?');
 
     compiled.querySelector('#reset').click();
     fixture.detectChanges();
@@ -113,7 +116,8 @@ describe('AppComponent', () => {
     compiled.querySelector('.mode').click();
     fixture.detectChanges();
 
-    expect(compiled.querySelectorAll('.square').length).toBe(3);
+    expect(app.colors.length).toBe(3);
+    expect(compiled.querySelectorAll('.square')[3].style.cssText).not.toContain('rgb(199, 119, 9)');
     expect(compiled.querySelector('h1').textContent).toContain('The Great rgb(199, 119, 9) Color Game');
     expect(compiled.querySelector('.mode.selected').textContent).toContain('Easy');
   });

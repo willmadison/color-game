@@ -1,21 +1,24 @@
-<h1 [style.background]="currentState === gameStateEnum.Correct ? goalColor: ''">
-  The Great <br /><span id="colorDisplay">{{ goalColor }}</span><br /> Color Game
+<h1 [style.background]="hasWon ? goalColor: ''">
+  The Great <br/><span id="colorDisplay">{{ goalColor }}</span><br/> Color Game
 </h1>
 
 <div id="stripe">
-  <button id="reset" (click)="reset()">New Colors</button>
+  <button id="reset" (click)="reset()">{{ hasWon ? 'Play Again?' : 'New Colors' }}</button>
   <span id="message">{{ message }}</span>
+
   <button class="mode"
           [class.selected]="numSquares === easyNumSquares"
-          (click)="changeMode(easyNumSquares)">Easy</button>
+          (click)="changeMode(easyNumSquares)">Easy
+  </button>
   <button class="mode selected"
           [class.selected]="numSquares === hardNumSquares"
-          (click)="changeMode(hardNumSquares)">Hard</button>
+          (click)="changeMode(hardNumSquares)">Hard
+  </button>
 </div>
 
 <div id="container">
-  <div *ngFor="let color of colors; let i = index"
+  <div *ngFor="let square of squares"
        class="square"
-       [style.background]="color"
-       (click)="clickColor(color, i)"></div>
+       [style.background]="colors[square]"
+       (click)="clickColor(square)"></div>
 </div>
